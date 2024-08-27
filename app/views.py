@@ -26,11 +26,10 @@ def register(request):
             messages.error(request, "Username already taken.")
             return redirect("signup")
 
-        # Create the user
         user = User.objects.create_user(username=username, password=password1)
         user.first_name = full_name
         user.save()
-        # Authenticate the user
+
         authenticated_user = authenticate(username=username, password=password1)
         if authenticated_user is not None:
             login(request, authenticated_user)
@@ -39,5 +38,13 @@ def register(request):
 
 
 def login_(request):
-    context = {}
-    return render(request, "login.html", context)
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect("index")
+        else:
+            return redirect("error")
+    return render(request, "login.html")
