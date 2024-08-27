@@ -48,3 +48,8 @@ def login_(request):
         else:
             return redirect("error")
     return render(request, "login.html")
+
+
+def create_quiz(request):
+    context = {}
+    return render(request, "quiz.html", context)
