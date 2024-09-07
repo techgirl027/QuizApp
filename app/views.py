@@ -56,6 +56,11 @@ def login_(request):
 
 
 def create_quiz(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        author = request.user
+        amount = 0
+        quiz = models.Quiz.objects.create(name=name, author=author, amount=amount)
     context = {}
     return render(request, "quiz.html", context)
 
